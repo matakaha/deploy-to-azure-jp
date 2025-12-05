@@ -3,24 +3,24 @@
   Review what we learned, ask for feedback, provide next steps.
 -->
 
-## Finish
+## 完了
 
 <img src=https://octodex.github.com/images/octdrey-catburn.jpg alt=celebrate width=300 align=right>
 
-### Congratulations, you've completed this course!
+### おめでとうございます。このコースを完了しました!
 
-Here's a recap of all the tasks you've accomplished in your repository:
+リポジトリで達成したすべてのタスクの要約は次のとおりです:
 
-- Trigger a job based on labels
-- Set up the Azure environment
-- Spin up environment based on labels
-- Deploy to a staging environment based on labels
-- Deploy to a production environment based on labels
-- Destroy environment based on labels
+- label に基づいて job をトリガーする
+- Azure 環境をセットアップする
+- label に基づいて環境を起動する
+- label に基づいて staging 環境にデプロイする
+- label に基づいて production 環境にデプロイする
+- label に基づいて環境を削除する
 
-### What's next?
+### 次のステップは?
 
-- [We'd love to hear what you thought of this course](https://github.com/orgs/skills/discussions/categories/deploy-to-azure).
-- [Take another GitHub Skills Course](https://github.com/skills).
-- [Read the GitHub Getting Started docs](https://docs.github.com/en/get-started).
-- To find projects to contribute to, check out [GitHub Explore](https://github.com/explore).
+- [このコースについてのご意見をお聞かせください](https://github.com/orgs/skills/discussions/categories/deploy-to-azure)。
+- [別の GitHub Skills コースを受講する](https://github.com/skills)。
+- [GitHub 入門ドキュメントを読む](https://docs.github.com/get-started)。
+- 貢献できるプロジェクトを見つけるには、[GitHub Explore](https://github.com/explore) をチェックしてください。

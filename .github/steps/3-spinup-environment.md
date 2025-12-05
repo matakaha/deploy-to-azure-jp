@@ -4,35 +4,35 @@
   Define terms and link to docs.github.com.
 -->
 
-## Step 3: Spin up an environment based on labels
+## Step 3: label に基づいて環境を起動する
 
-_Nicely done! :heart:_
+_よくできました! :heart:_
 
-GitHub Actions is cloud agnostic, so any cloud will work. We'll show how to deploy to Azure in this course.
+GitHub Actions はクラウドに依存しないため、どのクラウドでも機能します。このコースでは Azure へのデプロイ方法を紹介します。
 
-**What are _Azure resources_?** In Azure, a resource is an entity managed by Azure. We'll use the following Azure resources in this course:
+**_Azure リソース_とは何ですか?** Azure では、リソースは Azure によって管理されるエンティティです。このコースでは、以下の Azure リソースを使用します:
 
-- A [web app](https://docs.microsoft.com/en-us/azure/app-service/overview) is how we'll be deploying our application to Azure.
-- A [resource group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups) is a collection of resources, like web apps and virtual machines (VMs).
-- An [App Service plan](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans) is what runs our web app and manages the billing (our app should run for free).
+- [web app](https://docs.microsoft.com/ja-jp/azure/app-service/overview) は、アプリケーションを Azure にデプロイする方法です。
+- [resource group](https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/overview#resource-groups) は、web app や仮想マシン (VM) などのリソースのコレクションです。
+- [App Service plan](https://docs.microsoft.com/ja-jp/azure/app-service/overview-hosting-plans) は、web app を実行し、課金を管理するものです(このアプリは無料で実行されるはずです)。
 
-Through the power of GitHub Actions, we can create, configure, and destroy these resources through our workflow files.
+GitHub Actions の力により、ワークフローファイルを通じてこれらのリソースを作成、設定、削除することができます。
 
-### :keyboard: Activity 1: Set up a personal access token (PAT)
+### :keyboard: Activity 1: personal access token (PAT) をセットアップする
 
-Personal access tokens (PATs) are an alternative to using passwords for authentication to GitHub. We will use a PAT to allow your web app to pull the container image after your workflow pushes a newly built image to the registry.
+Personal access token (PAT) は、GitHub への認証にパスワードを使用する代わりの方法です。ワークフローが新しくビルドされたイメージを registry にプッシュした後、web app が container イメージをプルできるようにするために PAT を使用します。
 
-1. Open a new browser tab, and work on the steps in your second tab while you read the instructions in this tab.
-2. Create a personal access token with the `repo` and `write:packages` scopes. For more information, see ["Creating a personal access token."](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-3. Once you have generated the token we will need to store it in a secret so that it can be used within a workflow. Create a new repository secret named `CR_PAT` and paste the PAT token in as the value.
-4. With this done we can move on to setting up our workflow.
+1. 新しいブラウザタブを開き、このタブで指示を読みながら、2つ目のタブで手順を進めてください。
+2. `repo` と `write:packages` スコープを持つ personal access token を作成します。詳細については、[「personal access token の作成」](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)を参照してください。
+3. トークンを生成したら、ワークフロー内で使用できるように secret に保存する必要があります。`CR_PAT` という名前の新しい repository secret を作成し、PAT トークンを値として貼り付けます。
+4. これで、ワークフローのセットアップに進むことができます。
 
-**Configuring your Azure environment**
+**Azure 環境の設定**
 
-To deploy successfully to our Azure environment:
+Azure 環境に正常にデプロイするには:
 
-1. Create a new branch called `azure-configuration` by clicking on the branch dropdown on the top, left hand corner of the `Code` tab on your repository page.
-2. Once you're in the new `azure-configuration` branch, go into the `.github/workflows` directory and create a new file titled `spinup-destroy.yml` by clicking **Add file**. Copy and paste the following into this new file:
+1. リポジトリページの `Code` タブの左上にある branch ドロップダウンをクリックして、`azure-configuration` という名前の新しい branch を作成します。
+2. 新しい `azure-configuration` branch に入ったら、`.github/workflows` ディレクトリに移動し、**Add file** をクリックして `spinup-destroy.yml` という名前の新しいファイルを作成します。以下を新しいファイルにコピー＆ペーストします:
     ```yaml
     name: Configure Azure environment
 
@@ -46,7 +46,7 @@ To deploy successfully to our Azure environment:
       AZURE_APP_PLAN: actions-ttt-deployment
       AZURE_LOCATION: '"East US"'
       ###############################################
-      ### Replace <username> with GitHub username ###
+      ### <username> を GitHub ユーザー名に置き換える ###
       ###############################################
       AZURE_WEBAPP_NAME: <username>-ttt-app
 
@@ -102,43 +102,43 @@ To deploy successfully to our Azure environment:
             run: |
               az group delete --name ${{env.AZURE_RESOURCE_GROUP}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --yes
     ```
-1. Click **Commit changes...** and select `Commit directly to the azure-configuration branch.` before clicking **Commit changes**.
-1. Go to the Pull requests tab of the repository.
-1. There should be a yellow banner with the `azure-configuration` branch where you can click **Compare & pull request**.
-1. Set the title of the Pull request to: `Added spinup-destroy.yml workflow` and click `Create pull request`.
+1. **Commit changes...** をクリックし、**Commit changes** をクリックする前に `Commit directly to the azure-configuration branch.` を選択します。
+1. リポジトリの Pull requests タブに移動します。
+1. `azure-configuration` branch とともに黄色いバナーが表示されるので、**Compare & pull request** をクリックします。
+1. Pull request のタイトルを: `Added spinup-destroy.yml workflow` に設定し、`Create pull request` をクリックします。
 
-We will cover the key functionality below and then put the workflow to use by applying a label to the pull request.
+主要な機能を以下で説明し、その後 pull request に label を適用してワークフローを実際に使用します。
 
-This new workflow has two jobs:
+この新しいワークフローには2つの job があります:
 
-1. **Set up Azure resources** will run if the pull request contains a label with the name "spin up environment".
-2. **Destroy Azure resources** will run if the pull request contains a label with the name "destroy environment".
+1. **Set up Azure resources** は、pull request に "spin up environment" という名前の label が含まれている場合に実行されます。
+2. **Destroy Azure resources** は、pull request に "destroy environment" という名前の label が含まれている場合に実行されます。
 
-In addition to each job, there's a few global environment variables:
+各 job に加えて、いくつかのグローバル環境変数があります:
 
-- `AZURE_RESOURCE_GROUP`, `AZURE_APP_PLAN`, and `AZURE_WEBAPP_NAME` are names for our resource group, app service plan, and web app, respectively, which we'll reference over multiple steps and workflows
-- `AZURE_LOCATION` lets us specify the [region](https://azure.microsoft.com/en-us/global-infrastructure/regions/) for the data centers, where our app will ultimately be deployed.
+- `AZURE_RESOURCE_GROUP`、`AZURE_APP_PLAN`、`AZURE_WEBAPP_NAME` は、複数のステップとワークフローで参照する resource group、App Service plan、web app の名前です。
+- `AZURE_LOCATION` は、アプリが最終的にデプロイされるデータセンターの[リージョン](https://azure.microsoft.com/ja-jp/explore/global-infrastructure/geographies/#geographies)を指定します。
 
-**Setting up Azure resources**
+**Azure リソースのセットアップ**
 
-The first job sets up the Azure resources as follows:
+最初の job は次のように Azure リソースをセットアップします:
 
-1. Logs into your Azure account with the [`azure/login`](https://github.com/Azure/login) action. The `AZURE_CREDENTIALS` secret you created earlier is used for authentication.
-1. Creates an [Azure resource group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups) by running [`az group create`](https://docs.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-create) on the Azure CLI, which is [pre-installed on the GitHub-hosted runner](https://help.github.com/en/actions/reference/software-installed-on-github-hosted-runners).
-1. Creates an [App Service plan](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans) by running [`az appservice plan create`](https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az-appservice-plan-create) on the Azure CLI.
-1. Creates a [web app](https://docs.microsoft.com/en-us/azure/app-service/overview) by running [`az webapp create`](https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az-webapp-create) on the Azure CLI.
-1. Configures the newly created web app to use [GitHub Packages](https://help.github.com/en/packages/publishing-and-managing-packages/about-github-packages) by using [`az webapp config`](https://docs.microsoft.com/en-us/cli/azure/webapp/config?view=azure-cli-latest) on the Azure CLI. Azure can be configured to use its own [Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-registry/), [DockerHub](https://docs.docker.com/docker-hub/), or a custom (private) registry. In this case, we'll configure GitHub Packages as a custom registry.
+1. [`azure/login`](https://github.com/Azure/login) アクションを使用して Azure アカウントにログインします。以前に作成した `AZURE_CREDENTIALS` secret が認証に使用されます。
+1. Azure CLI で [`az group create`](https://docs.microsoft.com/ja-jp/cli/azure/group?view=azure-cli-latest#az-group-create) を実行して [Azure resource group](https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/overview#resource-groups) を作成します。Azure CLI は [GitHub ホスト型 runner にプリインストール](https://docs.github.com/actions/concepts/runners/github-hosted-runners)されています。
+1. Azure CLI で [`az appservice plan create`](https://docs.microsoft.com/ja-jp/cli/azure/appservice/plan?view=azure-cli-latest#az-appservice-plan-create) を実行して [App Service plan](https://docs.microsoft.com/ja-jp/azure/app-service/overview-hosting-plans) を作成します。
+1. Azure CLI で [`az webapp create`](https://docs.microsoft.com/ja-jp/cli/azure/webapp?view=azure-cli-latest#az-webapp-create) を実行して [web app](https://docs.microsoft.com/ja-jp/azure/app-service/overview) を作成します。
+1. Azure CLI で [`az webapp config`](https://docs.microsoft.com/ja-jp/cli/azure/webapp/config?view=azure-cli-latest) を使用して、新しく作成した web app が [GitHub Packages](https://docs.github.com/packages/learn-github-packages/introduction-to-github-packages) を使用するように設定します。Azure は、独自の [Azure Container Registry](https://docs.microsoft.com/ja-jp/azure/container-registry/)、[DockerHub](https://docs.docker.com/docker-hub/)、またはカスタム(プライベート) registry を使用するように設定できます。今回は、GitHub Packages をカスタム registry として設定します。
 
-**Destroying Azure resources**
+**Azure リソースの削除**
 
-The second job destroys Azure resources so that you do not use your free minutes or incur billing. The job works as follows:
+2番目の job は、無料分を消費したり課金が発生したりしないように Azure リソースを削除します。job は次のように動作します:
 
-1. Logs into your Azure account with the [`azure/login`](https://github.com/Azure/login) action. The `AZURE_CREDENTIALS` secret you created earlier is used for authentication.
-1. Deletes the resource group we created earlier using [`az group delete`](https://docs.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az-group-delete) on the Azure CLI.
+1. [`azure/login`](https://github.com/Azure/login) アクションを使用して Azure アカウントにログインします。以前に作成した `AZURE_CREDENTIALS` secret が認証に使用されます。
+1. Azure CLI で [`az group delete`](https://docs.microsoft.com/ja-jp/cli/azure/group?view=azure-cli-latest#az-group-delete) を使用して、以前に作成した resource group を削除します。
 
-### :keyboard: Activity 2: Apply labels to create resources
+### :keyboard: Activity 2: リソースを作成するために label を適用する
 
-1. Edit the `spinup-destroy.yml` file in your open pull request and replace any `<username>` placeholders with your GitHub username. Commit this change directly to the `azure-configuration` branch.
-1. Back in the Pull request, create and apply the `spin up environment` label to your open pull request
-1. Wait for the GitHub Actions workflow to run and spin up your Azure environment. You can follow along in the Actions tab or in the pull request merge box.
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+1. 開いている pull request の `spinup-destroy.yml` ファイルを編集し、`<username>` プレースホルダーを自分の GitHub ユーザー名に置き換えます。この変更を `azure-configuration` branch に直接 commit します。
+1. Pull request に戻り、開いている pull request に `spin up environment` label を作成して適用します。
+1. GitHub Actions ワークフローが実行され、Azure 環境が起動されるのを待ちます。Actions タブまたは pull request の merge ボックスで進行状況を確認できます。
+1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。

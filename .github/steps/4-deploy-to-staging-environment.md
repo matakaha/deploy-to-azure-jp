@@ -4,20 +4,20 @@
   Define terms and link to docs.github.com.
 -->
 
-## Step 4: Deploy to a staging environment based on labels
+## Step 4: label に基づいて staging 環境にデプロイする
 
-_Nicely done, you used a workflow to spin up your Azure environment :dancer:_
+_よくできました。ワークフローを使用して Azure 環境を起動しましたね :dancer:_
 
-Now that the proper configuration and workflow files are present, let's test our actions! In this step, there's a small change to the game. Once you add the appropriate label to your pull request, you should be able to see the deployment!
+適切な設定とワークフローファイルが揃ったので、アクションをテストしましょう!このステップでは、ゲームに少し変更があります。適切な label を pull request に追加すると、デプロイを確認できるはずです!
 
-1. Create a new branch named `staging-test` from `main` using the same steps as you did for the previous `azure-configuration` branch.
-1. Edit the `.github/workflows/deploy-staging.yml` file, and replace every `<username>` with your GitHub username.
-1. Commit that change to the new `staging-test` branch.
-1. Go to the Pull requests tab and there should be a yellow banner with the `staging-test` branch to `Compare & pull request`. Once the pull request is opened up, click `Create pull request`.
+1. 前の `azure-configuration` branch と同じ手順で、`main` から `staging-test` という名前の新しい branch を作成します。
+1. `.github/workflows/deploy-staging.yml` ファイルを編集し、すべての `<username>` を自分の GitHub ユーザー名に置き換えます。
+1. その変更を新しい `staging-test` branch に commit します。
+1. Pull requests タブに移動すると、`staging-test` branch の黄色いバナーが表示されるので、`Compare & pull request` をクリックします。pull request が開いたら、`Create pull request` をクリックします。
 
-### :keyboard: Activity 1: Add the proper label to your pull request
+### :keyboard: Activity 1: pull request に適切な label を追加する
 
-1. Ensure that the `GITHUB_TOKEN` for this repository has read and write permissions under **Workflow permissions**. [Learn more](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token). This is required for your workflow to be able to upload your image to the container registry.
-1. Create and apply the `stage` label to your open pull request
-1. Wait for the GitHub Actions workflow to run and deploy the application to your Azure environment. You can follow along in the Actions tab or in the pull request merge box. The deployment may take a few moments but you've done the right thing. Once the deployment is successful, you'll see green check marks for each run, and you'll see a URL for your deployment. Play the game!
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+1. このリポジトリの `GITHUB_TOKEN` が **Workflow permissions** の下で読み取りと書き込みの権限を持っていることを確認します。[詳細はこちら](https://docs.github.com/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token)。これは、ワークフローが container registry にイメージをアップロードできるようにするために必要です。
+1. 開いている pull request に `stage` label を作成して適用します。
+1. GitHub Actions ワークフローが実行され、アプリケーションが Azure 環境にデプロイされるのを待ちます。Actions タブまたは pull request の merge ボックスで進行状況を確認できます。デプロイには数分かかる場合がありますが、正しく行われています。デプロイが成功すると、各実行に緑色のチェックマークが表示され、デプロイの URL が表示されます。ゲームをプレイしてみましょう!
+1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。

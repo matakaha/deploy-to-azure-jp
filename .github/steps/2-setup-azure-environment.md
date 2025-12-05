@@ -4,13 +4,13 @@
   Define terms and link to docs.github.com.
 -->
 
-## Step 2: Set up an Azure environment
+## Step 2: Azure 環境をセットアップする
 
-_Good job getting started :gear:_
+_始められましたね、お疲れさまです :gear:_
 
-### Nice work triggering a job on specific labels
+### 特定の label で job をトリガーする、よくできました
 
-We won't be going into detail on the steps of this workflow, but it would be a good idea to become familiar with the actions we're using. They are:
+このワークフローのステップについて詳しく説明はしませんが、使用しているアクションについて理解しておくことをお勧めします。使用しているアクションは次のとおりです:
 
 - [`actions/checkout`](https://github.com/actions/checkout)
 - [`actions/upload-artifact`](https://github.com/actions/upload-artifact)
@@ -20,36 +20,36 @@ We won't be going into detail on the steps of this workflow, but it would be a g
 - [`azure/login`](https://github.com/Azure/login)
 - [`azure/webapps-deploy`](https://github.com/Azure/webapps-deploy)
 
-### :keyboard: Activity 1: Store your credentials in GitHub secrets and finish setting up your workflow
+### :keyboard: Activity 1: 認証情報を GitHub secrets に保存し、ワークフローのセットアップを完了する
 
-1.  In a new tab, [create an Azure account](https://azure.microsoft.com/en-us/free/) if you don't already have one. If your Azure account is created through work, you may encounter issues accessing the necessary resources -- we recommend creating a new account for personal use and for this course.
-    > **Note**: You may need a credit card to create an Azure account. If you're a student, you may also be able to take advantage of the [Student Developer Pack](https://education.github.com/pack) for access to Azure. If you'd like to continue with the course without an Azure account, Skills will still respond, but none of the deployments will work.
-1.  Create a [new subscription](https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) in the Azure Portal.
-    > **Note**: your subscription must be configured "Pay as you go" which will require you to enter billing information. This course will only use a few minutes from your free plan, but Azure requires the billing information.
-1.  Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) on your machine.
-1.  In your terminal, run:
+1.  新しいタブで、まだアカウントをお持ちでない場合は [Azure アカウントを作成](https://azure.microsoft.com/ja-jp/free/)してください。Azure アカウントが職場で作成されている場合、必要なリソースへのアクセスに問題が発生する可能性があります。個人用に新しいアカウントを作成し、このコースで使用することをお勧めします。
+    > **注**: Azure アカウントを作成するにはクレジットカードが必要な場合があります。学生の方は、Azure へのアクセスのために [Student Developer Pack](https://education.github.com/pack) を利用できる場合があります。Azure アカウントなしでコースを続けたい場合、Skills は引き続き応答しますが、デプロイは機能しません。
+1.  Azure Portal で[新しい subscription を作成](https://docs.microsoft.com/ja-jp/azure/cost-management-billing/manage/create-subscription)します。
+    > **注**: subscription は「従量課金制」に設定する必要があり、請求情報を入力する必要があります。このコースでは無料プランから数分しか使用しませんが、Azure では請求情報が必要です。
+1.  マシンに [Azure CLI](https://docs.microsoft.com/ja-jp/cli/azure/install-azure-cli?view=azure-cli-latest) をインストールします。
+1.  ターミナルで次のコマンドを実行します:
     ```shell
     az login
     ```
-1.  Select the subscription you just selected from the interactive authentication prompt. Copy the value of the subscription ID to a safe place. We'll call this `AZURE_SUBSCRIPTION_ID`. Here's an example of what it looks like:
+1.  対話型認証プロンプトから先ほど選択した subscription を選択します。subscription ID の値を安全な場所にコピーします。これを `AZURE_SUBSCRIPTION_ID` と呼びます。例は次のようになります:
     ```shell
     No     Subscription name    Subscription ID                       Tenant
     -----  -------------------  ------------------------------------  -----------------
     [1] *  some-subscription    f****a09-****-4d1c-98**-f**********c  Default Directory
     ```
-1.  In your terminal, run the command below.
+1.  ターミナルで以下のコマンドを実行します。
 
     ```shell
     az ad sp create-for-rbac --name "GitHub-Actions" --role contributor \
      --scopes /subscriptions/{subscription-id} \
      --sdk-auth
 
-        # Replace {subscription-id} with the same id stored in AZURE_SUBSCRIPTION_ID.
+        # {subscription-id} を AZURE_SUBSCRIPTION_ID に保存した同じ ID に置き換えてください。
     ```
 
-    > **Note**: The `\` character works as a line break on Unix based systems. If you are on a Windows based system the `\` character will cause this command to fail. Place this command on a single line if you are using Windows.
+    > **注**: `\` 文字は Unix ベースのシステムで改行として機能します。Windows ベースのシステムを使用している場合、`\` 文字はこのコマンドを失敗させます。Windows を使用している場合は、このコマンドを1行に配置してください。
 
-1.  Copy the entire contents of the command's response, we'll call this `AZURE_CREDENTIALS`. Here's an example of what it looks like:
+1.  コマンドの応答の内容全体をコピーします。これを `AZURE_CREDENTIALS` と呼びます。例は次のようになります:
     ```shell
     {
       "clientId": "<GUID>",
@@ -59,14 +59,14 @@ We won't be going into detail on the steps of this workflow, but it would be a g
       (...)
     }
     ```
-1.  Back on GitHub, click on this repository's **Secrets and variables > Actions** in the Settings tab.
-1.  Click **New repository secret**
-1.  Name your new secret **AZURE_SUBSCRIPTION_ID** and paste the value from the `id:` field in the first command.
-1.  Click **Add secret**.
-1.  Click **New repository secret** again.
-1.  Name the second secret **AZURE_CREDENTIALS** and paste the entire contents from the second terminal command you entered.
-1.  Click **Add secret**
-1.  Go back to the Pull requests tab and in your pull request go to the **Files Changed** tab. Find and then edit the `.github/workflows/deploy-staging.yml` file to use some new actions. The full workflow file, should look like this:
+1.  GitHub に戻り、このリポジトリの Settings タブの **Secrets and variables > Actions** をクリックします。
+1.  **New repository secret** をクリックします。
+1.  新しい secret に **AZURE_SUBSCRIPTION_ID** という名前を付け、最初のコマンドの `id:` フィールドの値を貼り付けます。
+1.  **Add secret** をクリックします。
+1.  再度 **New repository secret** をクリックします。
+1.  2つ目の secret に **AZURE_CREDENTIALS** という名前を付け、入力した2つ目のターミナルコマンドの内容全体を貼り付けます。
+1.  **Add secret** をクリックします。
+1.  Pull requests タブに戻り、pull request の **Files Changed** タブに移動します。`.github/workflows/deploy-staging.yml` ファイルを見つけて編集し、新しいアクションを使用します。完全なワークフローファイルは次のようになります:
     ```yaml
     name: Deploy to staging
 
@@ -77,7 +77,7 @@ We won't be going into detail on the steps of this workflow, but it would be a g
     env:
       IMAGE_REGISTRY_URL: ghcr.io
       ###############################################
-      ### Replace <username> with GitHub username ###
+      ### <username> を GitHub ユーザー名に置き換える ###
       ###############################################
       DOCKER_IMAGE_NAME: <username>-azure-ttt
       AZURE_WEBAPP_NAME: <username>-ttt-app
@@ -170,5 +170,5 @@ We won't be going into detail on the steps of this workflow, but it would be a g
                 az cache purge
                 az account clear
     ```
-1. After you've edited the file, click **Commit changes...** and commit to the `staging-workflow` branch.
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+1. ファイルを編集したら、**Commit changes...** をクリックし、`staging-workflow` branch に commit します。
+1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。

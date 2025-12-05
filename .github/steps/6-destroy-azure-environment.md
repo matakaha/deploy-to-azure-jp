@@ -4,20 +4,20 @@
   Define terms and link to docs.github.com.
 -->
 
-## Step 6: Production deployment
+## Step 6: Production デプロイメント
 
-_Nice work! :sparkle:_
+_よくできました! :sparkle:_
 
-Great work, you've done it! You should be able to see your container image in the **Packages** section of your account on the main repository page. You can get the deployment URL in the Actions log, just like the staging URL.
+素晴らしい作業です、やり遂げました!アカウントの **Packages** セクション(メインのリポジトリページ)で container イメージを確認できるはずです。デプロイメント URL は、staging URL と同様に Actions ログで取得できます。
 
-### The cloud environment
+### クラウド環境
 
-Throughout the course you've spun up resources that, if left unattended, could incur billing or consume your free minutes from the cloud provider. Once you have verified your application in production, let's tear down those environments so that you can keep your minutes for more learning!
+コース全体を通じて、放置すると課金が発生したり、クラウドプロバイダーからの無料分を消費したりする可能性のあるリソースを起動してきました。アプリケーションが production で確認できたら、これらの環境を削除して、学習のための時間を確保できるようにしましょう!
 
-### :keyboard: Activity 1: Destroy any running resources so you don't incur charges
+### :keyboard: Activity 1: 実行中のリソースを削除して課金が発生しないようにする
 
-1. Create and apply the `destroy environment` label to your merged `production-deployment-workflow` pull request. If you have already closed the tab with your pull request, you can open it again by clicking **Pull requests** and then clicking the **Closed** filter to view merged pull requests.
+1. merge した `production-deployment-workflow` pull request に `destroy environment` label を作成して適用します。pull request を閉じたタブを既に閉じている場合は、**Pull requests** をクリックし、**Closed** フィルターをクリックして merge された pull request を表示することで、再度開くことができます。
 
-Now that you've applied the proper label, let's wait for the GitHub Actions workflow to complete. When it's finished, you can confirm that your environment has been destroyed by visiting your app's URL, or by logging into the Azure portal to see it is not running.
+適切な label を適用したので、GitHub Actions ワークフローが完了するのを待ちましょう。完了したら、アプリの URL にアクセスするか、Azure portal にログインして実行されていないことを確認することで、環境が削除されたことを確認できます。
 
-2. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+2. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。

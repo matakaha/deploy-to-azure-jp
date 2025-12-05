@@ -4,21 +4,21 @@
   Define terms and link to docs.github.com.
 -->
 
-## Step 5: Deploy to a production environment based on labels
+## Step 5: label に基づいて production 環境にデプロイする
 
-_Deployed! :ship:_
+_デプロイされました! :ship:_
 
-### Nicely done
+### よくできました
 
-As we've done before, create a new branch called `production-deployment-workflow` from `main`. In the `.github/workflows` directory, add a new file titled `deploy-prod.yml`. This new workflow deals specifically with commits to `main` and handles deployments to `prod`.
+前に行ったように、`main` から `production-deployment-workflow` という名前の新しい branch を作成します。`.github/workflows` ディレクトリに、`deploy-prod.yml` という名前の新しいファイルを追加します。この新しいワークフローは、`main` への commit を特に処理し、`prod` へのデプロイを処理します。
 
-**Continuous delivery** (CD) is a concept that contains many behaviors and other, more specific concepts. One of those concepts is **test in production**. That can mean different things to different projects and different companies, and isn't a strict rule that says you are or aren't "doing CD".
+**継続的デリバリー** (CD) は、多くの振る舞いやより具体的な概念を含む概念です。そのような概念の1つに **production 環境でのテスト**があります。これはプロジェクトや企業によって異なる意味を持ち、CD を「行っている」かどうかを定める厳密なルールではありません。
 
-In our case, we can match our production environment to be exactly like our staging environment. This minimizes opportunities for surprises once we deploy to production.
+私たちの場合、production 環境を staging 環境と完全に同じように合わせることができます。これにより、production にデプロイした後の予期せぬ事態の機会が最小限になります。
 
-### :keyboard: Activity 1: Add triggers to production deployment workflow
+### :keyboard: Activity 1: production デプロイメントワークフローにトリガーを追加する
 
-Copy and paste the following to your file, and replace any `<username>` placeholders with your GitHub username. Note that not much has changed from our staging workflow, except for our trigger, and that we won't be filtering by labels.
+以下をファイルにコピー＆ペーストし、`<username>` プレースホルダーを自分の GitHub ユーザー名に置き換えてください。staging ワークフローからあまり変更されていないことに注意してください。トリガーと label でフィルタリングしない点が異なります。
 
 ```yaml
 name: Deploy to production
@@ -31,7 +31,7 @@ on:
 env:
   IMAGE_REGISTRY_URL: ghcr.io
   ###############################################
-  ### Replace <username> with GitHub username ###
+  ### <username> を GitHub ユーザー名に置き換える ###
   ###############################################
   DOCKER_IMAGE_NAME: <username>-azure-ttt
   AZURE_WEBAPP_NAME: <username>-ttt-app
@@ -123,15 +123,15 @@ jobs:
             az account clear
 ```
 
-1. Update every `<username>` to your GitHub username.
-1. Commit your changes to the `production-deployment-workflow` branch.
-1. Go to the Pull requests tab and click **Compare & pull request** for the `production-deployment-workflow` branch and create a Pull request.
+1. すべての `<username>` を自分の GitHub ユーザー名に更新します。
+1. 変更を `production-deployment-workflow` branch に commit します。
+1. Pull requests タブに移動し、`production-deployment-workflow` branch の **Compare & pull request** をクリックして Pull request を作成します。
 
-Great! The syntax you used tells GitHub Actions to only run that workflow when a commit is made to the main branch. Now we can put this workflow into action to deploy to production!
+素晴らしい!使用した構文は、GitHub Actions に対して main branch に commit が行われたときにのみワークフローを実行するように指示します。これで、このワークフローを実際に使用して production にデプロイできます!
 
-### :keyboard: Activity 2: Merge your pull request
+### :keyboard: Activity 2: pull request を merge する
 
-1. You can now [merge](https://docs.github.com/en/get-started/quickstart/github-glossary#merge) your pull request!
-1. Click **Merge pull request** and leave this tab open as we will be applying a label to the closed pull request in the next step.
-1. Now we just have to wait for the package to be published to GitHub Container Registry and the deployment to occur.
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+1. これで pull request を [merge](https://docs.github.com/get-started/quickstart/github-glossary#merge) できます!
+1. **Merge pull request** をクリックし、次のステップで閉じた pull request に label を適用するため、このタブを開いたままにしておきます。
+1. あとは、パッケージが GitHub Container Registry に公開され、デプロイが実行されるのを待つだけです。
+1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。
