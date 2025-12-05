@@ -51,12 +51,12 @@ GitHub Actions と Microsoft Azure を使用して2つのデプロイワーク�
 }).toString()
 -->
 
-[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=skills&template_name=deploy-to-azure&owner=%40me&name=skills-deploy-to-azure&description=My+clone+repository&visibility=public)
+[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=matakaha&template_name=deploy-to-azure-jp&owner=%40me&name=skills-deploy-to-azure-jp&description=My+clone+repository&visibility=public)
 
 1. **Start course** を右クリックして、新しいタブでリンクを開きます。
 2. 新しいタブでは、ほとんどの項目が自動的に入力されます。
    - owner には、個人アカウントまたは organization を選択してリポジトリをホストします。
-   - private リポジトリは [Actions の実行時間を消費する](https://docs.github.com/ja/billing/managing-billing-for-github-actions/about-billing-for-github-actions)ため、public リポジトリを作成することを推奨します。
+   - private リポジトリは [Actions の実行時間を消費する](https://docs.github.com/billing/managing-billing-for-github-actions/about-billing-for-github-actions)ため、public リポジトリを作成することを推奨します。
    - 下にスクロールして、フォーム下部の **Create repository** ボタンをクリックします。
 3. 新しいリポジトリが作成されたら、約20秒待ってからページを更新してください。新しいリポジトリの README にあるステップバイステップの手順に従ってください。
 
