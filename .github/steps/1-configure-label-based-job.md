@@ -52,7 +52,7 @@ label をトリガーとして複数のタスクに使用します:
 
        if: contains(github.event.pull_request.labels.*.name, 'stage')
    ```
-1. **Start commit** をクリックし、`staging-workflow` という名前の新しい branch を作成することを選択します。
+1. **Commit Changes...** をクリックし、`staging-workflow` という名前の新しい branch を作成すること(Create new branch for this commit and start a pull request)を選択します。
 1. **Propose changes** をクリックします。
 1. **Create pull request** をクリックします。
 1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。

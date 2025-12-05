@@ -10,7 +10,7 @@ _よくできました! :heart:_
 
 GitHub Actions はクラウドに依存しないため、どのクラウドでも機能します。このコースでは Azure へのデプロイ方法を紹介します。
 
-**_Azure リソース_とは何ですか?** Azure では、リソースは Azure によって管理されるエンティティです。このコースでは、以下の Azure リソースを使用します:
+**_Azure リソース_ とは何ですか?** Azure では、リソースは Azure によって管理されるエンティティです。このコースでは、以下の Azure リソースを使用します:
 
 - [web app](https://docs.microsoft.com/ja-jp/azure/app-service/overview) は、アプリケーションを Azure にデプロイする方法です。
 - [resource group](https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/overview#resource-groups) は、web app や仮想マシン (VM) などのリソースのコレクションです。
@@ -24,7 +24,7 @@ Personal access token (PAT) は、GitHub への認証にパスワードを使用
 
 1. 新しいブラウザタブを開き、このタブで指示を読みながら、2つ目のタブで手順を進めてください。
 2. `repo` と `write:packages` スコープを持つ personal access token を作成します。詳細については、[「personal access token の作成」](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)を参照してください。
-3. トークンを生成したら、ワークフロー内で使用できるように secret に保存する必要があります。`CR_PAT` という名前の新しい repository secret を作成し、PAT トークンを値として貼り付けます。
+3. トークンを生成したら、ワークフロー内で使用できるように secret に保存する必要があります。`CR_PAT` という名前の新しい repository secret を作成（前ステップのAZURE_CREDENTIALSの保存と同じAvtionsのSecret）し、PAT トークンを値として貼り付けます。
 4. これで、ワークフローのセットアップに進むことができます。
 
 **Azure 環境の設定**
@@ -102,7 +102,7 @@ Azure 環境に正常にデプロイするには:
             run: |
               az group delete --name ${{env.AZURE_RESOURCE_GROUP}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --yes
     ```
-1. **Commit changes...** をクリックし、**Commit changes** をクリックする前に `Commit directly to the azure-configuration branch.` を選択します。
+1. **Commit changes...** をクリックし、 `Commit directly to the azure-configuration branch.` を選択したのち、**Commit changes** をクリックします。
 1. リポジトリの Pull requests タブに移動します。
 1. `azure-configuration` branch とともに黄色いバナーが表示されるので、**Compare & pull request** をクリックします。
 1. Pull request のタイトルを: `Added spinup-destroy.yml workflow` に設定し、`Create pull request` をクリックします。
@@ -139,6 +139,6 @@ Azure 環境に正常にデプロイするには:
 ### :keyboard: Activity 2: リソースを作成するために label を適用する
 
 1. 開いている pull request の `spinup-destroy.yml` ファイルを編集し、`<username>` プレースホルダーを自分の GitHub ユーザー名に置き換えます。この変更を `azure-configuration` branch に直接 commit します。
-1. Pull request に戻り、開いている pull request に `spin up environment` label を作成して適用します。
+1. Pull request に戻り、開いている pull request に `spin up environment` label を作成して適用します。（Conversationタブを開き右側のペインを確認するとlabels欄を見つけることができます。クリックしラベルを作成してください）
 1. GitHub Actions ワークフローが実行され、Azure 環境が起動されるのを待ちます。Actions タブまたは pull request の merge ボックスで進行状況を確認できます。
 1. 約20秒待ってから、このページ(指示を読んでいるページ)を更新してください。[GitHub Actions](https://docs.github.com/actions) が自動的に次のステップに更新されます。
